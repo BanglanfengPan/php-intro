@@ -1,0 +1,19 @@
+{
+    "name": "amirganiev/course1_php_big_picture",
+    "description": "Simple application demonstrating logging and network requests",
+    "type": "project",
+    "require": {
+        "monolog/monolog": "^3.3",
+        "guzzlehttp/guzzle": "^7.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amirganiev\\Course1PhpBigPicture\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "amirganiev"
+        }
+    ]
+}
