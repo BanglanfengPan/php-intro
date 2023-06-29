@@ -1,0 +1,27 @@
+version: '3'
+services:
+  php:
+    build: 
+      context: ./
+      dockerfile: PHP.Dockerfile
+    ports:
+      - 8030:80
+    volumes:
+      - ./:/var/www/html
+    environment:
+      DB_HOST: mongo
+      DB_USER: admin
+      DB_PASSWORD: m0ng0DB.p4ss
+      DB_NAME: php_learn
+
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: m0ng0DB.p4ss
+      MONGO_INITDB_DATABASE: php_learn
+    volumes:
+      - db-vol:/data/db
+
+volumes:
+  db-vol:

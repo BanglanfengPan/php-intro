@@ -1,6 +1,8 @@
 <?php
     # name of HTML determined $_POST!!!!!!!
 
+    require 'config.inc.php';
+
     $name = '';
     $password = '';
     $gender = '';
@@ -58,18 +60,22 @@
         if ($ok) {
             # need to make sure mysqli package is downloaded with PHP
             $db = new mysqli(
-                'localhost', # where we are running the database
-                'root', # username
-                'secretpassword', # password for the user
-                'php_learn', # database we are connecting to in the mysql server
+                MYSQL_HOST, # where we are running the database
+                MYSQL_USER, # username
+                MYSQL_PASSWORD, # password for the user
+                MYSQL_DATABASE, # database we are connecting to in the mysql server
             );
+            
+            #password hash comes with php
+            $hash = password_hash($password, PASSWORD_DEFAULT); # just using the best available algorithm
 
             $sql = sprintf(
-                "INSERT INTO users (name, gender, color) VALUES (
-                    '%s', '%s', '%s')",
+                "INSERT INTO users (name, gender, color, hash) VALUES (
+                    '%s', '%s', '%s', '%s')",
                 $db->real_escape_string($name), # to escape special characters like ' in these values and not have somebody inject sql code
                 $db->real_escape_string($gender),
                 $db->real_escape_string($color),
+                $db->real_escape_string($hash),
                 ); # sprintf just formats a string
 
             # ----- also we could do:
@@ -105,6 +111,8 @@
             );
         }
     };
+
+    # readfile('header.tmpl.html');  # to load an html header that you define here
 ?>
 
 <form
@@ -179,3 +187,7 @@
     </input>
     <input type="submit" name="submit" value="Register"><br>
 </form>
+
+<!-- <?php
+    readfile('footer.tmpl.html');  # to load an html header that you define here
+?> -->

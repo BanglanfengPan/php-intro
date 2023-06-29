@@ -134,6 +134,8 @@
         $db->close();
 
     };
+
+    # readfile('header.tmpl.html');  # to load an html header that you define here
 ?>
 
 <form
@@ -208,3 +210,7 @@
     </input>
     <input type="submit" name="submit" value="Update"><br>
 </form>
+
+<!-- <?php
+    readfile('footer.tmpl.html');  # to load an html header that you define here
+?> -->
