@@ -3,6 +3,7 @@
 class Author extends Person
 {
     public static $centuryPopular = "19th";
+    const CENTURYPOPULAR = "19th";
     private $penName;
 
     function __construct($itemFirst = "", $itemLast = "", $itemYear = "", $itemPenName = "")
@@ -53,6 +54,7 @@ class Author extends Person
 
     public static function getCenturyAuthorWasPopular() #statis property has to use self instead of this
     {
+        // return this::CENTURYPOPULAR;
         return self::$centuryPopular.PHP_EOL; # in children of this class you will use parent instead of seld=f
 
     }

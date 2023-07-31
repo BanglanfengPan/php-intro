@@ -23,6 +23,9 @@ many forms of the same work() method
 `var_dump($_SERVER).PHP_EOL;` # prints the server infor like http_host
 `var_dump($_REQUEST).PHP_EOL;` # print all requests info (get and post, headers)
 `var_dump($_POST).PHP_EOL;` # only print the body of the request
+`htmlspecialchars($_GET["q"])` # converts special html characters into the associated entities ex: <> " & for safety (for when we try to read what was in the get or post request so we do not run javascript code accidentally)
+`htmlspecialchars($_GET["q"], ENT_QUOTES)` # also does the single quote
+`htmlspecialchars($_GET["q"] ?? "", ENT_QUOTES)` # check if $_GET["q"] exists or use empty string
 
 # HOW TO RUN PHP SERVER LOCALLY WITH JUST PHP:
 `php -S localhost:8080`

@@ -16,6 +16,7 @@ $myObj = new Person("Samuel Langhorne", "Clemens", 1899);
 // echo $myObj->firstName . "\n";
 
 echo $myObj::AVG_LIFE_SPAN. "\n"; # scope resolution operator, can access constansts inside of a class like this
+echo Person::AVG_LIFE_SPAN. "\n";
 
 // # below also works for a constant
 // echo Person::AVG_LIFE_SPAN. "\n";
@@ -38,8 +39,10 @@ $newAuthor = new Author("Samuel Langhorne", "Clemens", 1899, "Mark Twain"); #per
 
 echo $newAuthor->getCompleteName();
 
-echo Author::$centuryPopular; #this is how you acccess public statis property inside of a class
-echo Author::getCenturyAuthorWasPopular();
+echo $newAuthor::CENTURYPOPULAR.PHP_EOL;
+echo Author::$centuryPopular.PHP_EOL; #this is how you acccess public statis property inside of a class
+Author::$centuryPopular = '18th';
+echo Author::getCenturyAuthorWasPopular().PHP_EOL;
 
 echo "the end is here".PHP_EOL; # as you can see distructor happens after the last line
 
