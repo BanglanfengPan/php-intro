@@ -65,12 +65,7 @@
         
         if ($ok) {
             # need to make sure mysqli package is downloaded with PHP
-            $db = new mysqli(
-                'localhost', # where we are running the database
-                'root', # username
-                'secretpassword', # password for the user
-                'php_learn', # database we are connecting to in the mysql server
-            );
+            include_once 'db.php';
 
             $sql = sprintf(
                 "UPDATE users SET name='%s', gender='%s', color='%s'
