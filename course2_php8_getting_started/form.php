@@ -1,14 +1,16 @@
 <?php
 # name of HTML determined $_POST!!!!!!!
 
-$name      = '';
-$password  = '';
-$gender    = '';
-$color     = '';
-$languages = array();
-// $languages = [];
-$comments = '';
-$tc       = '';
+    require 'config.inc.php';
+
+    $name = '';
+    $password = '';
+    $gender = '';
+    $color = '';
+    $languages = array();
+    // $languages = [];
+    $comments = '';
+    $tc = '';
 
 if (isset($_POST['submit'])) {
     $ok = true;
@@ -17,54 +19,63 @@ if (isset($_POST['submit'])) {
     // use htmlspecialchars() to escape special characters - < > " &
     // ENT_QUOTES escapes ', too
 
-    // echo htmlspecialchars($_POST['searchterm'], ENT_QUOTES);
+        // echo htmlspecialchars($_POST['searchterm'], ENT_QUOTES);
+        
+        if (!isset($_POST['name']) || $_POST['name'] === '') {
+            $ok = false;
+        } else {
+            $name = $_POST['name'];
+        };
+        if (!isset($_POST['password']) || $_POST['password'] === '') {
+            $ok = false;
+        } else {
+            $password = $_POST['password'];
+        };
+        if (!isset($_POST['gender']) || $_POST['gender'] === '') {
+            $ok = false;
+        } else {
+            $gender = $_POST['gender'];
+        };
+        if (!isset($_POST['color']) || $_POST['color'] === '') {
+            $ok = false;
+        } else {
+            $color = $_POST['color'];
+        };
+        if (!isset($_POST['languages']) || !is_array($_POST['languages']) || count($_POST['languages']) === 0) {
+            $ok = false;
+        } else {
+            $languages = $_POST['languages'];
+        };
+        if (!isset($_POST['comments']) || $_POST['comments'] === '')  {
+            $ok = false;
+        } else {
+            $comments = $_POST['comments'];
+        };
+        if (!isset($_POST['tc']) || $_POST['tc'] === '') {
+            $ok = false;
+        } else {
+            $tc = $_POST['tc'];
+        };
+        
+        if ($ok) {
+            # need to make sure mysqli package is downloaded with PHP
+            $db = new mysqli(
+                MYSQL_HOST, # where we are running the database
+                MYSQL_USER, # username
+                MYSQL_PASSWORD, # password for the user
+                MYSQL_DATABASE, # database we are connecting to in the mysql server
+            );
+            
+            #password hash comes with php
+            $hash = password_hash($password, PASSWORD_DEFAULT); # just using the best available algorithm
 
-    if (!isset($_POST['name']) || $_POST['name'] === '') {
-        $ok = false;
-    } else {
-        $name = $_POST['name'];
-    };
-    if (!isset($_POST['password']) || $_POST['password'] === '') {
-        $ok = false;
-    } else {
-        $password = $_POST['password'];
-    };
-    if (!isset($_POST['gender']) || $_POST['gender'] === '') {
-        $ok = false;
-    } else {
-        $gender = $_POST['gender'];
-    };
-    if (!isset($_POST['color']) || $_POST['color'] === '') {
-        $ok = false;
-    } else {
-        $color = $_POST['color'];
-    };
-    if (!isset($_POST['languages']) || !is_array($_POST['languages']) || count($_POST['languages']) === 0) {
-        $ok = false;
-    } else {
-        $languages = $_POST['languages'];
-    };
-    if (!isset($_POST['comments']) || $_POST['comments'] === '') {
-        $ok = false;
-    } else {
-        $comments = $_POST['comments'];
-    };
-    if (!isset($_POST['tc']) || $_POST['tc'] === '') {
-        $ok = false;
-    } else {
-        $tc = $_POST['tc'];
-    };
-
-    if ($ok) {
-        # need to make sure mysqli package is downloaded with PHP
-        include_once 'db.php';
-
-        $sql = sprintf(
-            "INSERT INTO users (name, gender, color) VALUES (
-                    '%s', '%s', '%s')",
-            $db->real_escape_string($name), # to escape special characters like ' in these values and not have somebody inject sql code
-            $db->real_escape_string($gender),
-            $db->real_escape_string($color),
+            $sql = sprintf(
+                "INSERT INTO users (name, gender, color, hash) VALUES (
+                    '%s', '%s', '%s', '%s')",
+                $db->real_escape_string($name), # to escape special characters like ' in these values and not have somebody inject sql code
+                $db->real_escape_string($gender),
+                $db->real_escape_string($color),
+                $db->real_escape_string($hash),
                 ); # sprintf just formats a string
 
         # ----- also we could do:
@@ -98,8 +109,10 @@ if (isset($_POST['submit'])) {
             htmlspecialchars($comments, ENT_QUOTES),
             htmlspecialchars($tc, ENT_QUOTES),
             );
-    }
-};
+        }
+    };
+
+    # readfile('header.tmpl.html');  # to load an html header that you define here
 ?>
 
 <form action="submit.php" method="post">
@@ -179,3 +192,7 @@ if (isset($_POST['submit'])) {
     </input>
     <input type="submit" name="submit" value="Register"><br>
 </form>
+
+<!-- <?php
+    readfile('footer.tmpl.html');  # to load an html header that you define here
+?> -->

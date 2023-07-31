@@ -1,3 +1,32 @@
+# CLASSES
+1. Encaplusation:
+Building of data and behaviours, that are similar, together
+ex: Bike class can has color, year, model number, clean and ride functions
+2. Abstraction:
+Access to something complex without knowing the inner workings
+we will just call clean() method and bike is clean
+However, beneath the hood clean function is doing lots of steps to clean the bike (fill the bucket)
+3. Inheritence:
+create hierarchical relationships between items
+Student, Mechanic, Doctor are all People (they below to the people class)
+they all have fucntions walk() sleep() run(), variables: height, name, age
+But Mechanic class already inherits generic People class and species new specific methods
+4. Polymorphism
+Multiple functions of the same name doing something specific
+Gardnener works differently from Doctor
+we can add a function of work to each of our people based on the type of person (which work they do)
+many forms of the same work() method
+
+
+# USEFUL PHP COMMANDS
+`var_dump($GLOBALS).PHP_EOL;` #prints global variables defned somwhere in the php script (functions can access them)
+`var_dump($_SERVER).PHP_EOL;` # prints the server infor like http_host
+`var_dump($_REQUEST).PHP_EOL;` # print all requests info (get and post, headers)
+`var_dump($_POST).PHP_EOL;` # only print the body of the request
+`htmlspecialchars($_GET["q"])` # converts special html characters into the associated entities ex: <> " & for safety (for when we try to read what was in the get or post request so we do not run javascript code accidentally)
+`htmlspecialchars($_GET["q"], ENT_QUOTES)` # also does the single quote
+`htmlspecialchars($_GET["q"] ?? "", ENT_QUOTES)` # check if $_GET["q"] exists or use empty string
+
 # HOW TO RUN PHP SERVER LOCALLY WITH JUST PHP:
 `php -S localhost:8080`
 above is a command line to run php index file on a local server (not good for prod tho, use nginx)
@@ -11,6 +40,32 @@ to see the logs stream in
 `php -r "phpinfo();" | grep php.ini`
 output:
 `Loaded Configuration File => /opt/homebrew/etc/php/8.2/php.ini`
+
+# WHERE DOES PHP STORE SESSION FILES (SO WE MANAGE STATE OF A SESSION BECAUSE PHP ITSELF IS STATELESS)
+We need to store sessions state somewhere outside of the php code since php is stateless.
+Thus, we just give user browser a cookie which has an actual file name stored in that cookie value
+While in our local computer we store this file locally which contains an actuall session info (refer to course2/login.php)
+For example, this file can contain if user isAdmin, cookie tells php which file to look for.
+Thus, actual session info is stored on the server itself, not in a cookie file (treat cookie as a pointer).
+
+To find file location:
+`php -r 'echo "PHP Sessions PATH: ".((session_save_path()) ? session_save_path():sys_get_temp_dir() ).PHP_EOL;'`
+
+example of a PHP session file in `/var/folders/j8/y8s9d0gx72jd3w5dg05xfzwr0000gp/T` folder:
+`sess_r8n2garf6fgj1bcsfjkirbi2de`
+
+The cookie pointing to this file will contain the value of:
+`r8n2garf6fgj1bcsfjkirbi2de`
+
+The context of the file:
+`username|s:5:"test2";isAdmin|s:1:"1";%`
+
+The way how it works in code:
+```
+session_start();
+$_SESSION['username'] = $row->name;
+$_SESSION['isAdmin'] = $row->isAdmin;
+```
 
 # How to Start PHPMyAdmin Server to work with PHP and MySQL
 
