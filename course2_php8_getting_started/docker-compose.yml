@@ -1,9 +1,7 @@
 version: '3'
 services:
   php:
-    build: 
-      context: ./
-      dockerfile: PHP.Dockerfile
+    image: php:8-apache
     ports:
       - 8030:80
     volumes:
@@ -21,8 +19,8 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: root
+      PMA_USER: wattpad
+      PMA_PASSWORD: w4tTp4D.ev
       PMA_ARBITRARY: 1
     restart: always
     ports:
@@ -37,7 +35,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - db-vol:/var/lib/mysql
-      - ./php_learn.sql:/docker-entrypoint-initdb.d/php_learn.sql # This line was added
 
 volumes:
   db-vol:

@@ -1,5 +1,5 @@
 <?php
-    # name of HTML determined $_POST!!!!!!!
+# name of HTML determined $_POST!!!!!!!
 
     require 'config.inc.php';
 
@@ -12,12 +12,12 @@
     $comments = '';
     $tc = '';
 
-    if (isset($_POST['submit'])) {
-        $ok = true;
-        // insecure!!! because user can put even javarscript code into the text field
-        // echo $_POST['searchterm'];
-        // use htmlspecialchars() to escape special characters - < > " &
-        // ENT_QUOTES escapes ', too
+if (isset($_POST['submit'])) {
+    $ok = true;
+    // insecure!!! because user can put even javarscript code into the text field
+    // echo $_POST['searchterm'];
+    // use htmlspecialchars() to escape special characters - < > " &
+    // ENT_QUOTES escapes ', too
 
         // echo htmlspecialchars($_POST['searchterm'], ENT_QUOTES);
         
@@ -78,36 +78,36 @@
                 $db->real_escape_string($hash),
                 ); # sprintf just formats a string
 
-            # ----- also we could do:
-            # $stmt = $db->prepare(
-            #    "INSERT INTO users (col1, col2) VALUES (?, ?)");
+        # ----- also we could do:
+        # $stmt = $db->prepare(
+        #    "INSERT INTO users (col1, col2) VALUES (?, ?)");
 
-            # $stmt->bind_param('ss', $value1, $value2); 
-            # --- ss for 2 string types
-            # $stmt->execute();
-            # -------
+        # $stmt->bind_param('ss', $value1, $value2);
+        # --- ss for 2 string types
+        # $stmt->execute();
+        # -------
 
 
-            $db->query($sql);
+        $db->query($sql);
 
-            echo '<p>User added.</p>/';
+        echo '<p>User added.</p>/';
 
-            $db->close();
+        $db->close();
 
-            printf('User name: %s
+        printf('User name: %s
                 <br>Password: %s
                 <br>Gender: %s
                 <br>Color: %s
                 <br>Language(S): %s
                 <br>Comments: %s
                 <br>T&amp;C: %s',
-                htmlspecialchars($name, ENT_QUOTES),
-                htmlspecialchars($password, ENT_QUOTES),
-                htmlspecialchars($gender, ENT_QUOTES),
-                htmlspecialchars($color, ENT_QUOTES),
-                htmlspecialchars(implode(' ', $languages), ENT_QUOTES), //because $languages is an array
-                htmlspecialchars($comments, ENT_QUOTES),
-                htmlspecialchars($tc, ENT_QUOTES),
+            htmlspecialchars($name, ENT_QUOTES),
+            htmlspecialchars($password, ENT_QUOTES),
+            htmlspecialchars($gender, ENT_QUOTES),
+            htmlspecialchars($color, ENT_QUOTES),
+            htmlspecialchars(implode(' ', $languages), ENT_QUOTES), //because $languages is an array
+            htmlspecialchars($comments, ENT_QUOTES),
+            htmlspecialchars($tc, ENT_QUOTES),
             );
         }
     };
@@ -115,75 +115,80 @@
     # readfile('header.tmpl.html');  # to load an html header that you define here
 ?>
 
-<form
-    action=""
-    method="post">
+<form action="submit.php" method="post">
+    <input type="hidden" name="form-name" value="submit-form">
     User name: <input type="text" name="name" value="<?php
-        echo htmlspecialchars($name, ENT_QUOTES);
+    echo htmlspecialchars($name, ENT_QUOTES);
     ?>"><br>
     Password: <input type="password" name="password"><br>
     Gender:
-        <input type="radio" name="gender" value="f"<?php
-        if ($gender === 'f') {
-            echo ' checked="checked"';
-        }
-        ?>> female
-        <input type="radio" name="gender" value="m"<?php
-        if ($gender === 'm') {
-            echo ' checked="checked"';
-        }
-        ?>> male
-        <input type="radio" name="gender" value="o"<?php
-        if ($gender === 'o') {
-            echo ' checked="checked"';
-        }
-        ?>> other <br/>
+    <input type="radio" name="gender" value="f"<?php
+    if ($gender === 'f') {
+        echo ' checked="checked"';
+    }
+    ?>> female
+    <input type="radio" name="gender" value="m"<?php
+    if ($gender === 'm') {
+        echo ' checked="checked"';
+    }
+    ?>> male
+    <input type="radio" name="gender" value="o"<?php
+    if ($gender === 'o') {
+        echo ' checked="checked"';
+    }
+    ?>> other <br/>
     Favourite color:
-        <select name="color">
-            <option value="">Please select</option>
-            <option value="#f00"<?php
-                if ($color === "#f00") {
-                    echo ' selected';
-                }
-            ?>>red</option>
-            <option value="#0f0"<?php
-                if ($color === "#0f0") {
-                    echo ' selected';
-                }
-            ?>>green</option>
-            <option value="#00f"<?php
-                if ($color === "#00f") {
-                    echo ' selected';
-                }
-            ?>>blue</option>
-        </select><br>
+    <select name="color">
+        <option value="">Please select</option>
+        <option value="#f00"<?php
+        if ($color === "#f00") {
+            echo ' selected';
+        }
+        ?>>red
+        </option>
+        <option value="#0f0"<?php
+        if ($color === "#0f0") {
+            echo ' selected';
+        }
+        ?>>green
+        </option>
+        <option value="#00f"<?php
+        if ($color === "#00f") {
+            echo ' selected';
+        }
+        ?>>blue
+        </option>
+    </select><br>
     Languages Spoken:
-        <select name="languages[]" multiple size="3">
-            <option value="en"<?php 
-                if (in_array('en', $languages)) {
-                    echo ' selected';
-                }
-            ?>>English</option>
-            <option value="fr"<?php 
-                if (in_array('fr', $languages)) {
-                    echo ' selected';
-                }
-            ?>>French</option>
-            <option value="it"<?php 
-                if (in_array('it', $languages)) {
-                    echo ' selected';
-                }
-            ?>>Italian</option>
-        </select><br>
+    <select name="languages[]" multiple size="3">
+        <option value="en"<?php
+        if (in_array('en', $languages)) {
+            echo ' selected';
+        }
+        ?>>English
+        </option>
+        <option value="fr"<?php
+        if (in_array('fr', $languages)) {
+            echo ' selected';
+        }
+        ?>>French
+        </option>
+        <option value="it"<?php
+        if (in_array('it', $languages)) {
+            echo ' selected';
+        }
+        ?>>Italian
+        </option>
+    </select><br>
     Comments: <textarea name="comments"><?php
         echo htmlspecialchars($comments, ENT_QUOTES);
-    ?></textarea><br>
+        ?></textarea><br>
     <input type="checkbox" name="tc" value="ok"<?php
-        if ($tc === 'ok') {
-            echo ' checked="checked"';
-        }
-        ?>>
-        I accept the T&amp;C
+    if ($tc === 'ok') {
+        echo ' checked="checked"';
+    }
+    ?>>
+    I accept the T&amp;C
     </input>
     <input type="submit" name="submit" value="Register"><br>
 </form>

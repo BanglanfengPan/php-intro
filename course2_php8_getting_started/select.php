@@ -1,12 +1,7 @@
 <ul>
 <?php
 
-    $db = new mysqli(
-        'localhost',
-        'root',
-        'secretpassword',
-        'php_learn'
-    );
+include_once 'db.php';
 
     $sql = 'SELECT * FROM users';
 
