@@ -144,3 +144,13 @@ You are now ready to install your third party libraries, frameworks and such usi
 $ composer require erusev/parsedown:~1.0
 ```
 The installed packages are saved in your projects root folder named composer_vendor. While your frontend dependencies are usually not needed during runtimem but compiled for shipping, your composer dependencies are most likely used during runtime. Make sure to NOT exclude your composer_vendor folder from being tracked by git.
+
+# SESSIONS
+
+There are 4 ways to confgure a sessions:
+1. `.htaccess` is used to set session configuration for php for the whole directory (which is what we did while learning) (medium global)
+2. `phpini` file for the running instance of php in the server (most global)
+3. Apache configuration file, `httpd.conf` for running instance of Apache (most global)
+4. `ini_set()` for one php file (the least global)
+
+You can use `phpinfo.php` script located in the directory of interest to see what is the session configuration for this directory in the `session` section of the information displayed. You can also view the master configuration for the session that was overwritten by this directory configuration (for example `.httaccess` overwrite of the master configs)

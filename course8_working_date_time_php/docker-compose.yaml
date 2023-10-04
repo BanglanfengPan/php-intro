@@ -1,0 +1,44 @@
+version: '3'
+services:
+  php:
+    build: 
+      context: ./
+      dockerfile: PHP.Dockerfile
+    ports:
+      - 8030:80
+    volumes:
+      - ./:/var/www/html
+    environment:
+      DB_HOST: mysql
+      DB_USER: wattpad
+      DB_PASSWORD: w4tTp4D.ev
+      DB_NAME: php_learn
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: php_learn
+      MYSQL_USER: wattpad
+      MYSQL_PASSWORD: w4tTp4D.ev
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-vol:/var/lib/mysql
+      - ./php_learn.sql:/docker-entrypoint-initdb.d/php_learn.sql # This line was added
+
+volumes:
+  db-vol:
+    external: true # docker volume create --name=db-vol
